@@ -54,7 +54,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 GRAPHENE = {
-    'SCHEMA': 'myappapp.schema.schema',  # Where your Graphene schema lives
+    'SCHEMA': 'myappapp.schemas.schema.schema',  # Where your Graphene schema lives
     'RELAY_CONNECTION_ENFORCE_FIRST_OR_LAST': False,
     'RELAY_CONNECTION_MAX_LIMIT': 100,
     'MIDDLEWARE': [

@@ -1,7 +1,7 @@
 import graphene
 import graphql_jwt
 from myappapp.models import Author, Book
-from .types import AuthorType, BookType, UserType
+from ..types.types import AuthorType, BookType, UserType
 
 
 

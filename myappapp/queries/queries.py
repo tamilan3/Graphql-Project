@@ -1,9 +1,9 @@
 import graphene  
 from graphene_django.filter import DjangoFilterConnectionField
 from myappapp.models import Author, Book
-from .types import AuthorType, BookType
-from .filters.author import AuthorFilter
-from .filters.book import BookFilter
+from ..types.types import AuthorType, BookType
+from ..filters.author import AuthorFilter
+from ..filters.book import BookFilter
 
 class Query(graphene.ObjectType):
     all_authors = DjangoFilterConnectionField(AuthorType,filterset_class=AuthorFilter)
