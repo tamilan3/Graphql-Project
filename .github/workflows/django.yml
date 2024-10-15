@@ -1,30 +1,53 @@
-name: Django CI
+name: Deploy to EC2
 
 on:
-  push:
-    branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
+  workflow_dispatch:
 
 jobs:
-  build:
-
+  deploy:
     runs-on: ubuntu-latest
-    strategy:
-      max-parallel: 4
-      matrix:
-        python-version: [3.7, 3.8, 3.9]
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v3
-      with:
-        python-version: ${{ matrix.python-version }}
-    - name: Install Dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-    - name: Run Tests
-      run: |
-        python manage.py test
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          # Use the GitHub token to authenticate
+          token: ${{ secrets.GH_TOKEN }}
+
+
+      - name: Set up SSH for deployment
+        env:
+          EC2_SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
+          EC2_HOST: ${{ secrets.EC2_HOST }}
+          EC2_USER: ${{ secrets.EC2_USER }}
+        run: |
+          echo "$EC2_SSH_KEY" > ec2_key
+          chmod 600 ec2_key
+
+      - name: SSH and Deploy to EC2
+        env:
+          EC2_HOST: ${{ secrets.EC2_HOST }}
+          EC2_USER: ${{ secrets.EC2_USER }}
+        run: |
+          ssh -i ec2_key -o StrictHostKeyChecking=no $EC2_USER@$EC2_HOST << 'EOF'
+
+            # Navigate to the project directory
+            cd /home/ubuntu/django-app || {
+              git clone https://github.com/tamilan3/Graphql-Project.git /home/ubuntu/django-app
+              cd /home/ubuntu/django-app
+            }
+
+            # Pull the latest code from the repository
+            git pull origin main
+
+            # Build the Docker image
+            docker build -t graphql-app .
+
+            # Stop and remove existing container if it exists
+            docker stop graphql-app || true
+            docker rm graphql-app || true
+
+            # Run the new container
+            docker run -d --name graphql-app -p 8000:8000 graphql-app
+          EOF
+
