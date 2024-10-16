@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    container_name: graphql_app
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code  # Mount the current directory into the container
+    ports:
+      - "8000:8000"  # Map port 8000 on the host to port 8000 in the container
+    # depends_on:
+    #   - db  # Ensure the database starts before the web service
+    # environment:
+    #   - DEBUG=1  # Set to 0 in production
+    #   - DB_NAME=postgres
+    #   - DB_USER=postgres
+    #   - DB_PASSWORD=postgres
+    #   - DB_HOST=db
+    #   - DB_PORT=5432
+
+  # db:
+  #   image: postgres:13
+  #   container_name: postgres_db
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data  # Persistent data storage
+  #   environment:
+  #     - POSTGRES_DB=postgres
+  #     - POSTGRES_USER=postgres
+  #     - POSTGRES_PASSWORD=postgres
+  #   ports:
+  #     - "5432:5432"  # Map PostgreSQL port
+
+# volumes:
+#   postgres_data:
+

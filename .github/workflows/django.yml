@@ -3,12 +3,12 @@ name: Deploy to EC2
 on:
   push:
     branches:
-      - main  # Change to your default branch if different
+      - master  
   workflow_dispatch:  # Allows manual trigger
 
 jobs:
   deploy:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
@@ -41,14 +41,10 @@ jobs:
             # Pull the latest code from the repository
             git pull origin main
 
-            # Build the Docker image
-            docker build -t graphql-app .
+            # Stop and remove existing containers
+            docker-compose down
 
-            # Stop and remove existing container if it exists
-            docker stop graphql-app || true
-            docker rm graphql-app || true
-
-            # Run the new container
-            docker run -d --name graphql-app -p 8000:8000 graphql-app
+            # Build and start the containers using docker-compose
+            docker-compose up -d --build
           EOF
 
