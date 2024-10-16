@@ -1,6 +1,7 @@
 aniso8601==9.0.1
 asgiref==3.8.1
 Django==5.0.6
+django-filter==24.3
 django-graphql-jwt==0.4.0
 factory-boy==3.3.0
 Faker==27.0.0
