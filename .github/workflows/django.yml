@@ -1,9 +1,6 @@
 name: Deploy to EC2
 
 on:
-  push:
-    branches:
-      - master  
   workflow_dispatch:  # Allows manual trigger
 
 jobs:
@@ -33,13 +30,13 @@ jobs:
         run: |
           ssh -i ec2_key -o StrictHostKeyChecking=no $EC2_USER@$EC2_HOST << 'EOF'
             # Navigate to the project directory
-            cd /home/ubuntu/django-app || {
-              git clone https://github.com/tamilan3/Graphql-Project.git /home/ubuntu/django-app
-              cd /home/ubuntu/django-app
+            cd Graphql-Project || {
+              git clone https://github.com/tamilan3/Graphql-Project.git
+              cd Graphql-Project
             }
 
             # Pull the latest code from the repository
-            git pull origin main
+            git pull origin master
 
             # Stop and remove existing containers
             docker-compose down
