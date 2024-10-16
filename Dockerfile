@@ -1,11 +1,18 @@
-FROM python:3.9
+FROM python:3.10-slim
 
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
-
+# Set working directory
 WORKDIR /app
 
-COPY requirements.txt /app/
+# Copy requirements file
+COPY requirements.txt .
+
+# Install dependencies
+RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
-COPY . /app/
+# Copy the rest of your application code
+COPY . .
+
+# Command to run your application
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+
