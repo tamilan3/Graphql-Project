@@ -4,33 +4,24 @@ services:
   web:
     build: .
     container_name: graphql_app
-    command: python manage.py runserver 0.0.0.0:8000
+    command: gunicorn myapp.wsgi:application --bind 0.0.0.0:8000
     volumes:
-      - .:/code  # Mount the current directory into the container
+      - .:/code
     ports:
-      - "8000:8000"  # Map port 8000 on the host to port 8000 in the container
-    # depends_on:
-    #   - db  # Ensure the database starts before the web service
-    # environment:
-    #   - DEBUG=1  # Set to 0 in production
-    #   - DB_NAME=postgres
-    #   - DB_USER=postgres
-    #   - DB_PASSWORD=postgres
-    #   - DB_HOST=db
-    #   - DB_PORT=5432
+      - "8000:8000"
+    networks:
+      - webnet
 
-  # db:
-  #   image: postgres:13
-  #   container_name: postgres_db
-  #   volumes:
-  #     - postgres_data:/var/lib/postgresql/data  # Persistent data storage
-  #   environment:
-  #     - POSTGRES_DB=postgres
-  #     - POSTGRES_USER=postgres
-  #     - POSTGRES_PASSWORD=postgres
-  #   ports:
-  #     - "5432:5432"  # Map PostgreSQL port
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - web
+    networks:
+      - webnet
 
-# volumes:
-#   postgres_data:
-
+networks:
+  webnet:
