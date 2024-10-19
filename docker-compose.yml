@@ -1,17 +1,6 @@
 version: '3.8'
 
 services:
-  web:
-    build: ./djangoproject
-    container_name: graphql_app
-    command: "gunicorn myapp.wsgi:application --bind 0.0.0.0:8000"
-    volumes:
-      - static:/static
-    ports:
-      - "8000:8000"
-    networks:
-      - webnet
-
   nginx:
     build: ./nginx
     container_name: nginx_server
@@ -21,6 +10,17 @@ services:
       - static:/static
     depends_on:
       - web
+    networks:
+      - webnet
+  
+  web:
+    build: ./djangoproject
+    container_name: graphql_app
+    command: "gunicorn myapp.wsgi:application --bind 0.0.0.0:8000"
+    volumes:
+      - static:/static
+    ports:
+      - "8000:8000"
     networks:
       - webnet
 
