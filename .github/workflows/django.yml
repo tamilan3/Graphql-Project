@@ -32,7 +32,7 @@ jobs:
           ssh -t -i ec2_key -o StrictHostKeyChecking=no $EC2_USER@$EC2_HOST << 'EOF'
             # Navigate to the project directory or clone if it doesn't exist
             if [ ! -d "Graphql-Project" ]; then
-              git clone https://github.com/tamilan3/Graphql-Project.git
+              git clone git@github.com:tamilan3/Graphql-Project.git
             fi
             cd Graphql-Project
 
