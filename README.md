@@ -1,20 +1,22 @@
-server {
-    listen 80;
-    server_name localhost;
 
-    location / {
-        proxy_pass http://web:8000;  # Change 'web' to your Django service name
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-    }
+# CI/CD Project README
 
-    location /static/ {
-        alias /code/static/;  # Adjust according to your static files path
-    }
+## Overview
 
-    location /media/ {
-        alias /code/media/;  # Adjust according to your media files path
-    }
-}
+This project is set up to demonstrate a CI/CD pipeline for a Django application. The server is configured to handle requests and serve static and media files.
+
+## Getting Started
+
+1. Clone the repository.
+2. Ensure you have Docker and Docker Compose installed.
+3. Run `docker-compose up` to start the application.
+
+## Configuration
+
+- The server listens on port 80.
+- Adjust the `proxy_pass` directive to match your Django service name.
+- Update the paths in the `alias` directives for static and media files as necessary.
+
+## Deployment
+
+Follow the CI/CD pipeline instructions to deploy your application automatically on changes.
