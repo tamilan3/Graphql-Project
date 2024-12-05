@@ -11,7 +11,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
         with:
-          # Use the GitHub token to authenticate
+          # Use the GitHub token to authenticate (make sure the secret is set correctly)
           token: ${{ secrets.GH_TOKEN }}
 
       - name: Set up SSH for deployment
@@ -29,20 +29,19 @@ jobs:
           EC2_USER: ${{ secrets.EC2_USER }}
         run: |
           set -e
-          ssh -i ec2_key -o StrictHostKeyChecking=no $EC2_USER@$EC2_HOST << 'EOF'
-            # Navigate to the project directory
-            cd Graphql-Project || {
-              git clone https://github.com/tamilan3/Graphql-Project.git
-              cd Graphql-Project
-            }
+          ssh -t -i ec2_key -o StrictHostKeyChecking=no $EC2_USER@$EC2_HOST << 'EOF'
+            # Navigate to the project directory or clone if it doesn't exist
+            if [ ! -d "Graphql-Project" ]; then
+              git clone https://tamilan3:${{ secrets.GH_TOKEN }}@github.com/tamilan3/Graphql-Project.git
+            fi
+            cd Graphql-Project
 
             # Pull the latest code from the repository
             git pull origin master
 
             # Stop and remove existing containers
-            docker-compose down
+            docker-compose down || true  # Don't fail if no containers are running
 
             # Build and start the containers using docker-compose
             docker-compose up -d --build
           EOF
-

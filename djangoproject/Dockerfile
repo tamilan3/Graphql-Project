@@ -1,14 +1,14 @@
 FROM python:3.10-slim
 
 # Set working directory
-WORKDIR /app
+WORKDIR /code
 
 # Copy requirements file
 COPY requirements.txt .
 
 # Install dependencies
-RUN pip install --upgrade pip
-RUN pip install -r requirements.txt
+RUN pip install --upgrade pip && \
+    pip install -r requirements.txt
 
 # Copy the rest of your application code
 COPY . .

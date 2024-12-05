@@ -27,3 +27,8 @@ services:
 
 networks:
   webnet:
+    name: django_network
+volumes:
+  static:
+
+
