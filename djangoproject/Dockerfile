@@ -18,4 +18,3 @@ RUN python manage.py collectstatic --noinput
 
 # Command to run your application
 CMD ["gunicorn", "myapp.wsgi:application", "--bind", "0.0.0.0:8000"]
-

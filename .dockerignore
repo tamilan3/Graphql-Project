@@ -1,51 +1,51 @@
-# # Ignore Python cache files
-# __pycache__/
-# *.py[cod]
-# *$py.class
+# Ignore Python cache files
+__pycache__/
+*.py[cod]
+*$py.class
 
-# # Ignore environment files
-# .env
-# *.env
-# # 
-# # Ignore local Django database
-# db.sqlite3
+# Ignore environment files
+.env
+*.env
+# 
+# Ignore local Django database
+db.sqlite3
 
-# # Ignore logs
-# *.log
-# logs/
-# *.log.*
+# Ignore logs
+*.log
+logs/
+*.log.*
 
-# # Ignore local virtual environments
-# venv/
-# .venv/
-# env/
-# .env/
-# ENV/
-# ENV/
+# Ignore local virtual environments
+venv/
+.venv/
+env/
+.env/
+ENV/
+ENV/
 
-# # Ignore Git-related files
-# .git/
-# .gitignore
+# Ignore Git-related files
+.git/
+.gitignore
 
-# # Ignore macOS-specific files
-# .DS_Store
+# Ignore macOS-specific files
+.DS_Store
 
-# # Ignore Docker-related files that are not needed in the container
-# docker-compose.yml
-# Dockerfile
-# .dockerignore
+# Ignore Docker-related files that are not needed in the container
+docker-compose.yml
+Dockerfile
+.dockerignore
 
-# # Ignore static and media files (collected/handled separately)
+# Ignore static and media files (collected/handled separately)
 static/
 staticfiles/
-# media/
+media/
 
-# # Ignore node_modules if using a front-end framework
-# node_modules/
+# Ignore node_modules if using a front-end framework
+node_modules/
 
-# # Ignore compiled frontend assets (if applicable)
-# dist/
-# build/
+# Ignore compiled frontend assets (if applicable)
+dist/
+build/
 
-# # Ignore Nginx config (if handled outside the container)
-# nginx.conf
+# Ignore Nginx config (if handled outside the container)
+nginx.conf
