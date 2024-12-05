@@ -1,17 +1,6 @@
 version: '3.8'
 
 services:
-  web:
-    build: .
-    container_name: graphql_app
-    command: gunicorn myapp.wsgi:application --bind 0.0.0.0:8000
-    volumes:
-      - .:/code
-    ports:
-      - "8000:8000"
-    networks:
-      - webnet
-
   nginx:
     image: nginx:latest
     ports:
@@ -20,6 +9,19 @@ services:
       - ./nginx.conf:/etc/nginx/nginx.conf
     depends_on:
       - web
+    networks:
+      - webnet
+
+  web:
+    build: .
+    container_name: graphql_app
+    command: gunicorn myapp.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - .:/code
+      - ./static:/app/static  # Adjust based on your directory structure
+      - ./media:/app/media    # Adjust based on your directory structure
+    ports:
+      - "8000:8000"
     networks:
       - webnet
 
